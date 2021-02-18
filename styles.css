@@ -13,5 +13,6 @@ body {
 .calculator-grid {
  display: grid;
  justify-content: center;
- align-items: left;
+ align-items: center;
+ height: 100vh;
 }
