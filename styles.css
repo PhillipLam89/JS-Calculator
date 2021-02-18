@@ -1,5 +1,17 @@
-body, html {
+* {
   box-sizing: border-box;
-  margin: auto 0;
-  color: chartreuse;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: normal;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  background: linear-gradient(to right, rgb(54, 139, 114), chartreuse)
+}
+
+.calculator-grid {
+ display: grid;
+ justify-content: center;
+ align-items: center;
 }
