@@ -44,14 +44,5 @@
       }
     ]
   },
-  "overrides": [
-    {
-      "files": [
-        "js/main.js"
-      ],
-      "globals": {
-        "data": "readonly"
-      }
-    }
-  ]
+
 }
