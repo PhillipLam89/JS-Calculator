@@ -1,0 +1,20 @@
+{
+  "name": "js-calculator",
+  "version": "1.0.0",
+  "description": "A dynamic HTML, CSS, and JavaScript project that allows user to browse the world's most popular cocktails, their recipes, and historical background.",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PhillipLam89/JS-Calculator.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PhillipLam89/JS-Calculator/issues"
+  },
+  "homepage": "https://github.com/PhillipLam89/JS-Calculator#readme"
+}

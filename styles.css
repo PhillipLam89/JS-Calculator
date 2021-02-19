@@ -22,8 +22,9 @@ body {
 
 button {
   cursor: pointer;
-  font-size: 2rem;
-  border: 1px solid rgb(177, 135, 135);
+  font-size: 32px;
+  font-weight: bolder;
+
   outline: none;
   background-color: white;
   opacity: 0.75;
