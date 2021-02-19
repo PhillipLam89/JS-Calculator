@@ -51,45 +51,53 @@ class Calculator {
       default:
         return
     }
-    this.currentOperand = computation
+    this.currentOperand = computation.toString()
     this.operation = undefined
     this.previousOperand = ''
   }
 
-  // getDisplayNumber(number) {
-
-  //   // return number === '.' ? number : Number(number).toLocaleString('en', { maximumFractionDigits: 10 })
-
-  //   const stringNumber = number.toString()
-  //   const integerDigits = Number(stringNumber.split('.')[0]) //convert to number so that LocaleString will put commas automatically
-  //   const decimalDigits = stringNumber.split('.')[1] //no need to convert to Number to prevent NaN from displaying and to prevent commas after decimals
-  //   let integerDisplay
-  //   if (isNaN(integerDigits)) {
-  //     integerDisplay = ''
-  //   } else {
-  //     integerDisplay = integerDigits.toLocaleString('en', { maximumFractionDigits: 10 }) //inserts commas for integers ONLY
-  //   }
-  //   if (decimalDigits != null) {
-  //     return `${integerDisplay}.${decimalDigits}`
-  //   } else {
-  //     return integerDisplay
-  //   }
-  // }
 
   handleCommas(number) {
-    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    let finalAnswer = number.toString().split('.'); //prevents placing commas after decimal point
+    finalAnswer[0] = finalAnswer[0].replace(/\B(?=(\d{3})+(?!\d))/g, ','); //adds commas ONLY for integers LEFT of decimal
+    return finalAnswer.join('.'); //returns answer with commas on left of decimals where appropriate
   }
 
   updateDisplay() {
+
     this.currentOperandTextElement.innerText =
       this.handleCommas(this.currentOperand)
     if (this.operation != null) {
       this.previousOperandTextElement.innerText =
-        `${this.handleCommas(this.previousOperand)}${this.operation}`
+        `${this.handleCommas(this.previousOperand)} ${this.operation}`
     } else {
       this.previousOperandTextElement.innerText = ''
     }
   }
+                     // original code for handling commas
+
+  //   if (!this.currentOperand.includes('.')) {
+  //     this.currentOperandTextElement.innerText = this.currentOperand.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+  //   }
+
+  //   //only adds commas to integers left of decimal and prevents localeString from adding commas after decimal
+  //   else if (this.currentOperand.includes('.')) {
+  //     this.currentOperandTextElement.innerText =
+  //      `${this.currentOperand.split('.')[0].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}.${this.currentOperand.split('.')[1].toString()}`
+  //   }
+
+  //   if (this.operation != null && this.previousOperand.includes('.')) {
+  //     this.previousOperandTextElement.innerText =
+  //       `${this.previousOperand.split('.')[0].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}.${this.previousOperand.split('.')[1].toString()}${this.operation}`
+  //   }
+  //   else if (this.operation != null) {
+  //     this.previousOperandTextElement.innerText =
+  //       `${this.previousOperand.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}${this.operation}`
+  //   }
+  //    else {
+  //     this.previousOperandTextElement.innerText = ''
+  //   }
+  // }
 }
 
 
