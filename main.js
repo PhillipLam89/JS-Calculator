@@ -32,6 +32,7 @@ class Calculator {
 
   compute() {
     let computation
+    let squareRooted = ''
     const prev = parseFloat(this.previousOperand)
     const current = parseFloat(this.currentOperand)
     if (isNaN(prev) || isNaN(current)) return
@@ -48,9 +49,16 @@ class Calculator {
       case '÷':
         computation = prev / current
         break
+      case '^':
+        computation = prev ** current
+        break
+      case '√':
+        computation = Math.pow(current, 1 / prev)
+        break
       default:
         return
     }
+
     this.currentOperand = computation.toString()
     this.operation = undefined
     this.previousOperand = ''
@@ -63,13 +71,14 @@ class Calculator {
     return finalAnswer.join('.'); //returns answer with commas on left of decimals where appropriate
   }
 
+
   updateDisplay() {
 
     this.currentOperandTextElement.innerText =
       this.handleCommas(this.currentOperand)
     if (this.operation != null) {
       this.previousOperandTextElement.innerText =
-        `${this.handleCommas(this.previousOperand)} ${this.operation}`
+        `${this.handleCommas(this.previousOperand)}${this.operation}`
     } else {
       this.previousOperandTextElement.innerText = ''
     }
@@ -109,6 +118,7 @@ const allClearButton = document.querySelector('[data-all-clear]')
 const previousOperandTextElement = document.querySelector('[data-previous-operand]')
 const currentOperandTextElement = document.querySelector('[data-current-operand]')
 
+
 const calculator = new Calculator(previousOperandTextElement, currentOperandTextElement)
 
 numberButtons.forEach(button => {
@@ -120,8 +130,15 @@ numberButtons.forEach(button => {
 
 operationButtons.forEach(button => {
   button.addEventListener('click', () => {
-    calculator.chooseOperation(button.innerText)
-    calculator.updateDisplay()
+    if (button.className === 'span-two sqrt'){
+      calculator.chooseOperation('√')
+      calculator.updateDisplay()
+      return
+    } else {
+      calculator.chooseOperation(button.innerText)
+      calculator.updateDisplay()
+    }
+
   })
 })
 
