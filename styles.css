@@ -15,8 +15,8 @@ body {
  justify-content: center;
  align-content: center;
  height: 100vh;
- grid-template-columns: repeat(4, 100px);
- grid-template-rows: minmax(120px, auto) repeat(5, 100px);
+ grid-template-columns: repeat(4, 120px);
+ grid-template-rows: minmax(120px, auto) repeat(6, 120px);
 }
 
 button {
@@ -34,6 +34,9 @@ button:hover {
 
 .span-two {
   grid-column: span 2;
+}
+.span-four {
+  grid-column: span 4;
 }
 
 .output {
@@ -53,4 +56,21 @@ button:hover {
   color: white;
   font-weight: bolder;
   font-size: 3rem;
+}
+
+p {
+  padding: 0;
+  margin: 0;
+  color: goldenrod;
+  font-weight: bolder;
+}
+
+.author {
+  justify-content: center;
+  display: flex;
+  align-items: center;
+
+  border-bottom: none;
+  font-size: 2.5rem;
+  background: rgb(73, 37, 173);
 }
