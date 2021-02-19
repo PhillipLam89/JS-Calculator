@@ -48,7 +48,6 @@ deleteButton.addEventListener('click', button => {
 
 toggleNegativeButton.addEventListener('click', button => {
   calculator.handleToggleNegative()
-
 })
 
 
@@ -89,7 +88,7 @@ class Calculator {
     let squareRooted = ''
     const prev = parseFloat(this.previousOperand)
     const current = parseFloat(this.currentOperand)
-    if (isNaN(prev) || isNaN(current)) return
+    if (isNaN(prev) || isNaN(current)) return //these operations require 2 arguments
     switch (this.operation) {
       case '+':
         computation = prev + current
@@ -126,6 +125,8 @@ class Calculator {
   }
 
   handleToggleNegative(number) {
+    if (currentOperandTextElement.innerText === '' || this.currentOperand === '') return
+
     this.currentOperand = this.currentOperandTextElement.innerText * -1
     this.currentOperandTextElement.innerText = this.currentOperandTextElement.innerText * -1
 
