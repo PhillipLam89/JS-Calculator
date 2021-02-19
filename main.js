@@ -17,7 +17,7 @@ class Calculator {
 
   appendNumber(number) {
     if (number === '.' && this.currentOperand.includes('.')) return
-    this.currentOperand = this.currentOperand.toString() + number.toString()
+    this.currentOperand = this.currentOperand.toString() + number
   }
 
   chooseOperation(operation) {
@@ -56,29 +56,36 @@ class Calculator {
     this.previousOperand = ''
   }
 
-  getDisplayNumber(number) {
-    const stringNumber = number.toString()
-    const integerDigits = parseFloat(stringNumber.split('.')[0])
-    const decimalDigits = stringNumber.split('.')[1]
-    let integerDisplay
-    if (isNaN(integerDigits)) {
-      integerDisplay = ''
-    } else {
-      integerDisplay = integerDigits.toLocaleString('en', { maximumFractionDigits: 0 })
-    }
-    if (decimalDigits != null) {
-      return `${integerDisplay}.${decimalDigits}`
-    } else {
-      return integerDisplay
-    }
+  // getDisplayNumber(number) {
+
+  //   // return number === '.' ? number : Number(number).toLocaleString('en', { maximumFractionDigits: 10 })
+
+  //   const stringNumber = number.toString()
+  //   const integerDigits = Number(stringNumber.split('.')[0]) //convert to number so that LocaleString will put commas automatically
+  //   const decimalDigits = stringNumber.split('.')[1] //no need to convert to Number to prevent NaN from displaying and to prevent commas after decimals
+  //   let integerDisplay
+  //   if (isNaN(integerDigits)) {
+  //     integerDisplay = ''
+  //   } else {
+  //     integerDisplay = integerDigits.toLocaleString('en', { maximumFractionDigits: 10 }) //inserts commas for integers ONLY
+  //   }
+  //   if (decimalDigits != null) {
+  //     return `${integerDisplay}.${decimalDigits}`
+  //   } else {
+  //     return integerDisplay
+  //   }
+  // }
+
+  handleCommas(number) {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 
   updateDisplay() {
     this.currentOperandTextElement.innerText =
-      this.getDisplayNumber(this.currentOperand)
+      this.handleCommas(this.currentOperand)
     if (this.operation != null) {
       this.previousOperandTextElement.innerText =
-        `${this.getDisplayNumber(this.previousOperand)} ${this.operation}`
+        `${this.handleCommas(this.previousOperand)}${this.operation}`
     } else {
       this.previousOperandTextElement.innerText = ''
     }
