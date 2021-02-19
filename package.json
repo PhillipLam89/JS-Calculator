@@ -1,9 +1,9 @@
 {
-  "name": "JS-Calculator",
+  "name": "calculator",
   "version": "1.0.0",
   "description": "ES6 vanilla calculator",
   "scripts": {
-    "start": "serve",
+    "start": "serve"
   },
   "dependencies": {
     "serve": "^10.0.1"
