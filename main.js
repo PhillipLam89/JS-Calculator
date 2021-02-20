@@ -18,7 +18,7 @@ numberButtons.forEach(button => {
 
 operationButtons.forEach(button => {
   button.addEventListener('click', () => {
-    if (button.className === 'span-two sqrt') {
+    if (button.className === 'sqrt') {
       calculator.chooseOperation('√')
       calculator.updateDisplay()
       return
@@ -133,8 +133,13 @@ class Calculator {
   }
 
   updateDisplay() {
+    if (this.currentOperand === 'Infinity' || this.currentOperand === 'NaN') {
+      this.currentOperandTextElement.innerText = 'Undefined, please rail'
+    }
+    else {
+      this.currentOperandTextElement.innerText = this.handleCommas(this.currentOperand)
+    }
 
-    this.currentOperandTextElement.innerText = this.handleCommas(this.currentOperand)
 
     if (this.operation != null) {
       this.previousOperandTextElement.innerText =

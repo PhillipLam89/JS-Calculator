@@ -17,7 +17,7 @@ body {
  align-content: center;
  height: 100vh;
  grid-template-columns: repeat(4, 80px);
- grid-template-rows: minmax(80px, auto) repeat(7, 80px);
+ grid-template-rows: minmax(80px, auto) repeat(8, 80px);
 }
 
 button {
@@ -46,6 +46,7 @@ button:hover {
 .output {
  grid-column-start: 1;
  grid-column-end: -1;
+ font-size: 1rem;
  grid-row: 2/4;
  background-color: rgba(74, 87, 27, 0.75);
  display: flex;
@@ -53,8 +54,8 @@ button:hover {
  align-items: flex-end;
  justify-content: center;
  padding: 1rem;
- word-wrap: break-word;
- word-break: break-all;
+
+
 
 }
 
@@ -62,6 +63,11 @@ button:hover {
   color: white;
   font-weight: bolder;
   font-size: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  word-wrap: break-word;
+  word-break: break-all;
 }
 
 p {
@@ -71,11 +77,14 @@ p {
   font-weight: bolder;
 
 }
-.y {
-  border-top: 3px solid black;
-
+.current-operand,
+.previous-operand {
+    font-size: 1.9rem;
+    flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  text-align: center;
 }
-
 .author {
   justify-content: center;
   display: flex;
@@ -84,4 +93,12 @@ p {
   border-bottom: none;
   font-size: 2.5rem;
   background: rgb(73, 37, 173);
+}
+
+.toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
 }
