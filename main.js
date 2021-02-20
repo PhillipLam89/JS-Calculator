@@ -18,7 +18,7 @@ numberButtons.forEach(button => {
 
 operationButtons.forEach(button => {
   button.addEventListener('click', () => {
-    if (button.className === 'span-two sqrt') {
+    if (button.className === 'sqrt') {
       calculator.chooseOperation('√')
       calculator.updateDisplay()
       return
