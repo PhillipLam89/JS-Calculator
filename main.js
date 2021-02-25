@@ -1,3 +1,5 @@
+
+
 const numberButtons = document.querySelectorAll('[data-number]')
 const operationButtons = document.querySelectorAll('[data-operation]')
 const equalsButton = document.querySelector('[data-equals]')
@@ -6,32 +8,49 @@ const allClearButton = document.querySelector('[data-all-clear]')
 const previousOperandTextElement = document.querySelector('[data-previous-operand]')
 const currentOperandTextElement = document.querySelector('[data-current-operand]')
 const toggleNegativeButton = document.querySelector('[data-toggle-negative]')
+const piButton = document.querySelector('[data-pi]')
+const sqrButton = document.querySelector('.sqrt')
 
-
+let havePi = false
+let pi = 3.14159
 
 numberButtons.forEach(button => {
   button.addEventListener('click', () => {
+
     calculator.appendNumber(button.innerText)
     calculator.updateDisplay()
   })
 })
 
-operationButtons.forEach(button => {
-  button.addEventListener('click', () => {
-    if (button.className === 'sqrt') {
-      calculator.chooseOperation('√')
-      calculator.updateDisplay()
-      return
-    } else {
-      calculator.chooseOperation(button.innerText)
-      calculator.updateDisplay()
-    }
 
+
+
+function operationButtonsDefault() {
+  operationButtons.forEach(button => {
+    button.addEventListener('click', () => {
+
+      if (button.id === 'sqrt') {
+
+        calculator.chooseOperation('√')
+        calculator.updateDisplay()
+        return
+      } else {
+        calculator.chooseOperation(button.innerText)
+        calculator.updateDisplay()
+      }
+
+    })
   })
-})
+}
+operationButtonsDefault()
 
 equalsButton.addEventListener('click', button => {
-  calculator.compute()
+  if (havePi) {
+    calculator.computePi()
+  } else {
+    calculator.compute()
+  }
+
   calculator.updateDisplay()
 })
 
@@ -51,6 +70,12 @@ toggleNegativeButton.addEventListener('click', button => {
 })
 
 
+
+
+
+
+
+
 class Calculator {
   constructor(previousOperandTextElement, currentOperandTextElement) {
     this.previousOperandTextElement = previousOperandTextElement
@@ -58,7 +83,60 @@ class Calculator {
     this.clear()
   }
 
+  computePi() {
+    let computation
+    if (!this.currentOperand.includes('π')) {
+      this.compute()
+      this.updateDisplay()
+      return
+    }
+
+    if (this.currentOperand.includes('π') && havePi || havePi) {
+
+      if (this.operation === '+' && this.currentOperand.includes('π')) {
+
+          computation = this.currentOperand.length > 1 ? Number(this.previousOperand) + Number(this.currentOperand.slice(0, this.currentOperand.length - 1)) * pi : Number(this.previousOperand) + pi
+        }
+      else if (this.operation === '-' && this.currentOperand.includes('π')) {
+          computation = this.currentOperand.length > 1 ? Number(this.previousOperand) - Number(this.currentOperand.slice(0, this.currentOperand.length - 1)) * pi : Number(this.previousOperand) - pi
+        }
+      else if (this.operation === '*' && this.currentOperand.includes('π')) {
+          computation = this.currentOperand.length > 1 ? Number(this.previousOperand) * Number(this.currentOperand.slice(0, this.currentOperand.length - 1)) * pi : Number(this.previousOperand) * pi
+
+        }
+      else if (this.operation === '÷' && this.currentOperand.includes('π')) {
+          computation = this.currentOperand.length > 1 ? Number(this.previousOperand) / (Number(this.currentOperand.slice(0, this.currentOperand.length - 1)) * pi) : Number(this.previousOperand) / pi
+        }
+      else if (this.operation === '^' && this.currentOperand.includes('π')) {
+          computation = this.currentOperand.length > 1 ? Number(this.previousOperand) ** (Number(this.currentOperand.slice(0, this.currentOperand.length - 1)) * pi) : Number(this.previousOperand) ** pi
+
+        }
+      else if (this.operation === '√' && this.currentOperand.includes('π')) {
+          console.log('i ran')
+          computation = this.currentOperand.length > 1 ? Math.pow(Number(this.currentOperand * pi) , (1 / Number(this.previousOperand))) : Math.pow(Number(this.currentOperand), 1 / pi)
+        }
+    }
+
+
+
+    this.currentOperand = computation.toString()
+    this.operation = undefined
+    this.previousOperand = ''
+  }
+
   clear() {
+    havePi = false
+    operationButtons.forEach(button => {
+
+      if (button.className.includes('pi-added')) {
+        button.className = ''
+      }
+      //   if (button.className.includes('pi-added')) {
+      //       button.className = ''
+      // }
+
+    })
+
     this.currentOperand = ''
     this.previousOperand = ''
     this.operation = undefined
@@ -70,22 +148,52 @@ class Calculator {
 
   appendNumber(number) {
     if (number === '.' && this.currentOperand.includes('.')) return
+    if (number === 'π' && this.currentOperand.includes('π')) return
     this.currentOperand = this.currentOperand.toString() + number
   }
 
   chooseOperation(operation) {
+
     if (this.currentOperand === '') return
     if (this.previousOperand !== '') {
+      this.operation = operation
+
       this.compute()
     }
     this.operation = operation
-    this.previousOperand = this.currentOperand
+    if (this.currentOperand.includes('π') && havePi) {
+      if (this.currentOperand === 'π') {
+
+        this.previousOperand = pi
+        this.currentOperand = ''
+
+      }
+      else if (this.operation === '*' && !this.previousOperand.includes('*')) {
+        this.previousOperand = this.currentOperand.slice(0, this.currentOperand.length - 1) * pi
+
+        this.currentOperand = ''
+      }
+
+      else if (this.operation === '+' || this.operation === '-' || this.operation === '÷' || this.operation === '^' || this.operation === '√') {
+        this.previousOperand = Number(this.currentOperand.slice(0, this.currentOperand.length - 1)) * pi
+      }
+
+    }
+
+     else {
+      this.previousOperand = this.currentOperand
+      this.currentOperand = ''
+    }
+
+
+
     this.currentOperand = ''
+
   }
 
   compute() {
     let computation
-    let squareRooted = ''
+
     const prev = parseFloat(this.previousOperand)
     const current = parseFloat(this.currentOperand)
     if (isNaN(prev) || isNaN(current)) return //these operations require 2 arguments
@@ -108,6 +216,7 @@ class Calculator {
       case '√':
         computation = Math.pow(current, 1 / prev)
         break
+
       default:
         return
     }
@@ -132,6 +241,48 @@ class Calculator {
 
   }
 
+  handlePi(expression) {
+    let computation
+    let prev
+    let fullExpression = [this.operation, expression]
+
+
+    var sliced = fullExpression[1].substring(0, fullExpression[1].length - 1);
+
+    prev = Number(sliced) * 3.14159
+
+
+    const current = parseFloat(this.currentOperand)
+    if (isNaN(prev) ) return //these operations require 2 arguments
+    switch (this.operation) {
+      case '+':
+        computation = (prev * 3.14159) + current
+        break
+      case '-':
+        computation = prev - current
+        break
+      case '*':
+        computation = prev + current
+        break
+      case '÷':
+        computation = prev / current
+        break
+      case '^':
+        computation = prev ** current
+        break
+      case '√':
+        computation = Math.pow(current, 1 / prev)
+        break
+
+      default:
+        return
+    }
+
+    this.currentOperand = computation.toString()
+    this.operation = undefined
+    this.previousOperand = ''
+ }
+
   updateDisplay() {
     if (this.currentOperand === 'Infinity' || this.currentOperand === 'NaN') {
       this.currentOperandTextElement.innerText = 'Undefined, please rail'
@@ -150,3 +301,23 @@ class Calculator {
   }
 }
 const calculator = new Calculator(previousOperandTextElement, currentOperandTextElement)
+
+piButton.addEventListener('click', button => {
+  havePi = true
+  operationButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      button.className += ' pi-added'
+
+      if (button.className.includes('sqrt')) {
+        calculator.chooseOperation('√')
+      } else {
+        calculator.chooseOperation(`${button.innerText}`)
+      }
+
+    })
+  })
+
+  calculator.appendNumber('π')
+
+  calculator.updateDisplay()
+})
